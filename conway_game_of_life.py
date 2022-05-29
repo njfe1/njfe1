@@ -3,27 +3,26 @@ import time
 import math
 import sys
 pygame.init()
-bg_width = 1920
-bg_height = 1080
+bg_width = 1200
+bg_height = 675
 sc = pygame.display.set_mode((bg_width,bg_height))
 sc.fill((255,255,255))
 pygame.display.set_caption("lifegame")
 pygame.display.update()
 class Game():
-    def __init__(self):
-        self.matrix_l = 5
+    def __init__(self,matrix_l,sleep_time):
+        self.matrix_l = matrix_l
+        self.sleep_time = sleep_time
         self.list0 = []
         self.list1 = []
         self.userinputflag=False
         self.i = 0
         self.list01 = [self.list0,self.list1]
-    def listinit(self):
-        self.i = 0
-        self.list0.clear()
-        self.list1.clear()
         for a in range(0,int((bg_width/self.matrix_l)*(bg_height/self.matrix_l))):
             self.list0.append(0)
             self.list1.append(0)
+
+        
     def user_input(self):
         mouse_x,mouse_y = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -74,8 +73,9 @@ class Game():
                 pygame.draw.rect(sc,(255,255,255),((draw_index%(bg_width/self.matrix_l))*self.matrix_l,int(draw_index/(bg_width/self.matrix_l))*self.matrix_l,self.matrix_l,self.matrix_l))
         pygame.display.update()
         self.i = abs(self.i - 1)
+        time.sleep(self.sleep_time)
         if 1 not in self.list0 or 1 not in self.list1:
-            Game.listinit(self)
+            Game.__init__(self,self.matrix_l,self.sleep_time)
             sc.fill((255,255,255))
             pygame.display.update()
             game.userinputflag = False
@@ -84,14 +84,13 @@ class Game():
                 pygame.display.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
-                Game.listinit(self)
+                Game.__init__(self,self.matrix_l,self.sleep_time)
                 sc.fill((255,255,255))
                 pygame.display.update()
                 game.userinputflag = False
-        time.sleep(0.001)
 
-game = Game()
-game.listinit()
+        
+game = Game(10,1)
 while True:
     
     if game.userinputflag == False:
