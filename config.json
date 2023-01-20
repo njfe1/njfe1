@@ -1,0 +1,49 @@
+{   
+    "log": {     
+        "loglevel": "warning",     
+        "access": "/var/log/v2ray/access.log",     
+        "error": "/var/log/v2ray/error.log"    
+    },   
+    "inbounds": [
+        {     
+            "port": 11451,     
+            "protocol": "vmess",     
+            "settings": {       
+                "clients": [         
+                    {           
+                        "id": "xxxxx",           
+                        "level": 1,           
+                        "alterId": 64         
+                        }       
+                ]     
+            },     
+            "streamSettings": {              
+                "network": "ws",         
+                "wsSettings": {           
+                    "path": "/njagt1v2"           
+                    }       
+            },     
+            "listen": "127.0.0.1"
+        }
+    ],   
+    "outbounds": [
+        {     
+        "protocol": "freedom",     
+        "settings": {}   
+        },
+        {     
+        "protocol": "blackhole",     
+        "settings": {},     
+        "tag": "blocked"   
+        }
+    ],   
+    "routing": {     
+        "rules": [       
+            {         
+                "type": "field",         
+                "ip": ["geoip:private"],         
+                "outboundTag": "blocked"       
+            }     
+        ]   
+    } 
+}
